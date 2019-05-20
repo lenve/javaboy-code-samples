@@ -8,7 +8,7 @@
 
 |code-samples|对应的文章|
 |:---|:---|
-|spring-boot-starter-custom|[徒手撸一个 Spring Boot 中的 Starter ，解密自动化配置黑魔法！(暂未发布)]()|
+|spring-boot-starter-custom|[徒手撸一个 Spring Boot 中的 Starter ，解密自动化配置黑魔法！](https://mp.weixin.qq.com/s/tKr_shLQnvcQADr4mvcU3A)|
 
 ## 松哥简介
 
