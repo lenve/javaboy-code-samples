@@ -11,7 +11,8 @@
 |spring-boot-starter-custom|[徒手撸一个 Spring Boot 中的 Starter ，解密自动化配置黑魔法！](https://mp.weixin.qq.com/s/tKr_shLQnvcQADr4mvcU3A)|
 |api.js|[Spring Boot + Vue 前后端分离开发，前端网络请求封装与配置](https://mp.weixin.qq.com/s/K8ANNmm6ZrP2xMyK6LGZ_g)|
 |javassm|[这一次，我连 web.xml 都不要了，纯 Java 搭建 SSM 环境](https://mp.weixin.qq.com/s/NC_0oaeBzRjCB34U_ZWxIQ)|
-|properties|[是时候彻底搞清楚 Spring Boot 的配置文件 application.properties 了！]()|
+|properties|[是时候彻底搞清楚 Spring Boot 的配置文件 application.properties 了！](https://mp.weixin.qq.com/s/cUhzpo8zkQq09d8S4WkAsw)|
+|redis|[Spring Boot 操作 Redis，三种方案全解析！](https://mp.weixin.qq.com/s/cgDtmjPWTdh44bSlLC0Qsw)|
 
 ## 松哥简介
 
