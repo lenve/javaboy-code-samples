@@ -13,6 +13,7 @@
 |javassm|[这一次，我连 web.xml 都不要了，纯 Java 搭建 SSM 环境](https://mp.weixin.qq.com/s/NC_0oaeBzRjCB34U_ZWxIQ)|
 |properties|[是时候彻底搞清楚 Spring Boot 的配置文件 application.properties 了！](https://mp.weixin.qq.com/s/cUhzpo8zkQq09d8S4WkAsw)|
 |redis|[Spring Boot 操作 Redis，三种方案全解析！](https://mp.weixin.qq.com/s/cgDtmjPWTdh44bSlLC0Qsw)|
+|sessionshare|[Spring Boot 一个依赖搞定 session 共享，没有比这更简单的方案了！](https://mp.weixin.qq.com/s/xs67SzSkMLz6-HgZVxTDFw)|
 
 ## 松哥简介
 
