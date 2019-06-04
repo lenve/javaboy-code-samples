@@ -31,7 +31,7 @@
 
 ### 我的站点
 
-- 独立站点： https://www.javaboy.org
+- 独立站点： http://www.javaboy.org
 - GitHub： https://github.com/lenve
 - CSDN： http://wangsong.blog.csdn.net
 - 思否： https://segmentfault.com
