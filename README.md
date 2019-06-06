@@ -14,6 +14,7 @@
 |properties|[是时候彻底搞清楚 Spring Boot 的配置文件 application.properties 了！](https://mp.weixin.qq.com/s/cUhzpo8zkQq09d8S4WkAsw)|
 |redis|[Spring Boot 操作 Redis，三种方案全解析！](https://mp.weixin.qq.com/s/cgDtmjPWTdh44bSlLC0Qsw)|
 |sessionshare|[Spring Boot 一个依赖搞定 session 共享，没有比这更简单的方案了！](https://mp.weixin.qq.com/s/xs67SzSkMLz6-HgZVxTDFw)|
+|restful|[Spring Boot 中 10 行代码构建 RESTful 风格应用](https://mp.weixin.qq.com/s/7uO87SOu93XH2Y3iWxWicg)|
 
 ## 松哥简介
 
