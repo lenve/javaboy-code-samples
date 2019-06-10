@@ -15,7 +15,7 @@
 |redis|[Spring Boot 操作 Redis，三种方案全解析！](https://mp.weixin.qq.com/s/cgDtmjPWTdh44bSlLC0Qsw)|
 |sessionshare|[Spring Boot 一个依赖搞定 session 共享，没有比这更简单的方案了！](https://mp.weixin.qq.com/s/xs67SzSkMLz6-HgZVxTDFw)|
 |restful|[Spring Boot 中 10 行代码构建 RESTful 风格应用](https://mp.weixin.qq.com/s/7uO87SOu93XH2Y3iWxWicg)|
-|shiro|[Spring Boot 整合 Shiro 的两种方式全总结！]()|
+|shiro|[Spring Boot 整合 Shiro ,两种方式全总结！]()|
 
 ## 松哥简介
 
