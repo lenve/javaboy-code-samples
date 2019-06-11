@@ -17,6 +17,7 @@
 |restful|[Spring Boot 中 10 行代码构建 RESTful 风格应用](https://mp.weixin.qq.com/s/7uO87SOu93XH2Y3iWxWicg)|
 |shiro|[Spring Boot 整合 Shiro ,两种方式全总结！](https://mp.weixin.qq.com/s/JU_-gn-yZ4VJJXTZvo7nZQ)|
 |quartz|[Spring Boot 中实现定时任务的两种方式!](https://mp.weixin.qq.com/s/_20RYBkjKrB4tdpXI3hBOA)|
+|ehcache|[另一种缓存，Spring Boot 整合 Ehcache]()|
 
 ## 松哥简介
 
