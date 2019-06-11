@@ -37,6 +37,6 @@
 - 独立站点： http://www.javaboy.org
 - GitHub： https://github.com/lenve
 - CSDN： http://wangsong.blog.csdn.net
-- 思否： https://segmentfault.com
+- 思否： https://segmentfault.com/u/lenve
 - 博客园： https://www.cnblogs.com/lenve
 - 掘金： https://juejin.im/user/57d679af0bd1d000585012a7
