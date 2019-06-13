@@ -26,7 +26,7 @@
 |mybatismulti|[极简Spring Boot整合MyBatis多数据源](https://mp.weixin.qq.com/s/9YXwk2-4zIq60WFuy6nXdw)|
 |jpa|[是时候了解下Spring Boot整合 Jpa啦](http://www.javaboy.org/2019/0407/springboot-jpa.html)|
 |jpamulti|[Spring Boot 整合 Jpa 多数据源](http://www.javaboy.org/2019/0407/springboot-jpa-multi.html)|
-|jwt|[干货|一个案例学会Spring Security 中使用 JWT!](https://mp.weixin.qq.com/s/riyFQSrkQBQBCyomE__fLA)|
+|jwt|[干货\|一个案例学会Spring Security 中使用 JWT!](https://mp.weixin.qq.com/s/riyFQSrkQBQBCyomE__fLA)|
 |security_json|[SpringSecurity登录使用JSON格式数据](https://mp.weixin.qq.com/s/X1t-VCxzxIcQKOAu-pJrdw)|
 |swagger2|[SpringBoot整合Swagger2，再也不用维护接口文档了！](https://mp.weixin.qq.com/s/iTsTqEeqT9K84S091ycdog)|
 |cors|[Spring Boot中通过CORS解决跨域问题](https://mp.weixin.qq.com/s/ASEJwiswLu1UCRE-e2twYQ)|
