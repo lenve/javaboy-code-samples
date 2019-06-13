@@ -18,7 +18,7 @@
 |shiro|[Spring Boot 整合 Shiro ,两种方式全总结！](https://mp.weixin.qq.com/s/JU_-gn-yZ4VJJXTZvo7nZQ)|
 |quartz|[Spring Boot 中实现定时任务的两种方式!](https://mp.weixin.qq.com/s/_20RYBkjKrB4tdpXI3hBOA)|
 |ehcache|[另一种缓存，Spring Boot 整合 Ehcache](https://mp.weixin.qq.com/s/i9a3VOf_GMN_UBQ-8tKi3A)|
-|thymeleaf|[极简 Spring Boot 整合 Thymeleaf 页面模板]()|
+|thymeleaf|[极简 Spring Boot 整合 Thymeleaf 页面模板](https://mp.weixin.qq.com/s/7tgiuFceyZPHBZcLnPmkfw)|
 
 ## 松哥简介
 
