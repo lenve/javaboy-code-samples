@@ -30,6 +30,7 @@
 |security_json|[SpringSecurity登录使用JSON格式数据](https://mp.weixin.qq.com/s/X1t-VCxzxIcQKOAu-pJrdw)|
 |swagger2|[SpringBoot整合Swagger2，再也不用维护接口文档了！](https://mp.weixin.qq.com/s/iTsTqEeqT9K84S091ycdog)|
 |cors|[Spring Boot中通过CORS解决跨域问题](https://mp.weixin.qq.com/s/ASEJwiswLu1UCRE-e2twYQ)|
+|freemarker|[Spring Boot 整合 Freemarker，50 多行配置是怎么省略掉的？](https://mp.weixin.qq.com/s/zXwAy1dMlITqHOdBNeZEKg)|
 
 ## 松哥简介
 
