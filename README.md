@@ -35,6 +35,7 @@
 |docker|[一键部署 Spring Boot 到远程 Docker 容器，就是这么秀！](https://mp.weixin.qq.com/s/vSCQLvQBYMYoPhdlO2v3XA)|
 |https|[Spring Boot 支持 Https 有那么难吗？](https://mp.weixin.qq.com/s/WOmOXN_IK0IMjL0_hlAOFA)|
 |jwt-demo|[Spring Security 结合 Jwt 实现无状态登录](https://mp.weixin.qq.com/s/Sn59dxwtsEWoj2wdynQuRQ)|
+|docker-jib|[别用 Dockerfile 部署 Spring Boot 啦！松哥教你两步搞定！](https://mp.weixin.qq.com/s/ZqWktjLUOzHNKOGE6BfHRA)|
 
 ## 松哥简介
 
