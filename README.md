@@ -1,5 +1,10 @@
 各位小伙伴大家好！
 
+扫码加微信（微信ID：**a_java_boy2**），备注 SpringBoot，进群讨论。
+
+![微信ID：a_java_boy2](https://user-images.githubusercontent.com/6023444/75459026-ba70d500-59b9-11ea-8cbd-3d5889f356c4.png)
+
+
 ## 仓库简介
 
 松哥长期坚持在微信公众号**江南一点雨**上分享原创技术教程，但是代码一直没有统一管理过，最近有小伙伴提出，希望松哥能把文章的代码整理下，方便大伙参考。于是，松哥创建了这个仓库，用来分享微信公众号**江南一点雨**上文章的案例。小伙伴要是觉得这个仓库有用的话，记得点个 star。
@@ -43,13 +48,7 @@
 
 ### 我的公众号
 
-![](http://www.javaboy.org/images/sb/javaboy.jpg)  
-
-### 我的微信
-
-欢迎大家加我微信，松哥拉你进全栈技术交流群。
-
-![](http://www.javaboy.org/images/weixin.png)
+![](http://www.javaboy.org/images/sb/javaboy.jpg)
 
 ### 我的站点
 
