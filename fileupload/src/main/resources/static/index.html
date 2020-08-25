@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <el-upload
+            class="upload-demo"
+            action="/upload"
+            :on-success="onSuccess"
+            :on-preview="handlePreview"
+            accept=".pdf"
+            :limit="10">
+        <el-button size="small" type="primary">点击上传</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+    </el-upload>
+</div>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        methods: {
+            onSuccess(response, file, fileList) {
+                console.log(response);
+                console.log(file);
+                console.log(fileList);
+            },
+            handlePreview(file) {
+                console.log(file)
+                console.log(file.response.url);
+                window.open(file.response.url);
+            }
+        }
+    })
+</script>
+</body>
+</html>
