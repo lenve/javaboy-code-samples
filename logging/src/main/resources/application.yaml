@@ -1,0 +1,6 @@
+logging:
+  level:
+    root: error
+    org.javaboy.logging: info
+  file:
+    name: ${user.home}/logs/hello.log

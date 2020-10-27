@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn">
+    <properties>
+        <Property name="app_name">logging</Property>
+        <Property name="log_path">logs/${app_name}</Property>
+    </properties>
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d][%t][%p][%l] %m%n" />
+        </console>
+        <RollingFile name="RollingFileInfo" fileName="${log_path}/info.log"
+                     filePattern="${log_path}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="INFO" />
+                <ThresholdFilter level="WARN" onMatch="DENY"
+                                 onMismatch="NEUTRAL" />
+            </Filters>
+            <PatternLayout pattern="[%d][%t][%p][%c:%L] %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="2 MB" />
+            </Policies>
+            <DefaultRolloverStrategy compressionLevel="0" max="10"/>
+        </RollingFile>
+        <RollingFile name="RollingFileWarn" fileName="${log_path}/warn.log"
+                     filePattern="${log_path}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="WARN" />
+                <ThresholdFilter level="ERROR" onMatch="DENY"
+                                 onMismatch="NEUTRAL" />
+            </Filters>
+            <PatternLayout pattern="[%d][%t][%p][%c:%L] %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="2 MB" />
+            </Policies>
+            <DefaultRolloverStrategy compressionLevel="0" max="10"/>
+        </RollingFile>
+
+        <RollingFile name="RollingFileError" fileName="${log_path}/error.log"
+                     filePattern="${log_path}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="ERROR" />
+            <PatternLayout pattern="[%d][%t][%p][%c:%L] %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="2 MB" />
+            </Policies>
+            <DefaultRolloverStrategy compressionLevel="0" max="10"/>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <root level="info">
+            <appender-ref ref="Console" />
+            <appender-ref ref="RollingFileInfo" />
+            <appender-ref ref="RollingFileWarn" />
+            <appender-ref ref="RollingFileError" />
+        </root>
+    </loggers>
+</configuration>
