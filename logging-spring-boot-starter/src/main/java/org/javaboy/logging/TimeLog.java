@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author 江南一点雨
+ * @author 江南一点雨 jitpack
  * @微信公众号 江南一点雨
  * @网站 http://www.itboyhub.com
  * @国际站 http://www.javaboy.org
