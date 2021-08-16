@@ -14,7 +14,6 @@ class RabbitmqApplicationTests {
     @Test
     void contextLoads() throws IOException {
         msgService.send();
-        System.in.read();
     }
 
 }
