@@ -8,16 +8,16 @@
 
     <bean id="fromAccountDataSource"  class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName">
-            <value>org.h2.Driver</value>
+            <value>com.mysql.cj.jdbc.Driver</value>
         </property>
         <property name="url">
-            <value>jdbc:h2:~/transfer_db/transfer_from_db</value>
+            <value>jdbc:mysql:///transfer_from_db?serverTimezone=Asia/Shanghai</value>
         </property>
         <property name="username">
-            <value>sa</value>
+            <value>root</value>
         </property>
         <property name="password">
-            <value></value>
+            <value>123</value>
         </property>
     </bean>
 

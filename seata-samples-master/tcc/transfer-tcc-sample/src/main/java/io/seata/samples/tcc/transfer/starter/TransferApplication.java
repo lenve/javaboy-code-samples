@@ -50,7 +50,7 @@ public class TransferApplication {
         doTransferSuccess(100, 10);
 
         //执行 B->XXX 转账失败 demo， 分布式事务回滚
-        doTransferFailed(100, 10);
+//        doTransferFailed(100, 10);
     }
 
     /**
