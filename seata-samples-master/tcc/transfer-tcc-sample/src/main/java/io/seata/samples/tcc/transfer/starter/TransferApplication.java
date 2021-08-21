@@ -47,10 +47,10 @@ public class TransferApplication {
         toAccountDAO = (AccountDAO) applicationContext.getBean("toAccountDAO" );
 
         //执行 A->C 转账成功 demo, 分布式事务提交
-        doTransferSuccess(100, 10);
+//        doTransferSuccess(100, 10);
 
         //执行 B->XXX 转账失败 demo， 分布式事务回滚
-//        doTransferFailed(100, 10);
+        doTransferFailed(100, 10);
     }
 
     /**
