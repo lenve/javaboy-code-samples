@@ -1,0 +1,18 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: user
+  datasource:
+    url: jdbc:mysql://localhost:3306/javaboy_user
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://javaboy:123@localhost:8761/eureka/
