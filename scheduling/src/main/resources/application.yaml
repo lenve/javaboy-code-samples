@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    username: root
+    password: 123
+    url: jdbc:mysql:///scheduling2?serverTimezone=Asia/Shanghai
+
+  jpa:
+    database-platform: mysql
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect

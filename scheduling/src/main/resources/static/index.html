@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>定时任务管理系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-table
+            :data="jobs"
+            border
+            stripe
+            size="mini"
+            style="width: 100%">
+        <el-table-column
+                prop="jobId"
+                label="作业编号"
+                width="80">
+        </el-table-column>
+        <el-table-column
+                prop="beanName"
+                label="bean名称">
+        </el-table-column>
+        <el-table-column
+                prop="methodName"
+                label="方法名称">
+        </el-table-column>
+        <el-table-column
+                prop="methodParams"
+                label="方法参数">
+        </el-table-column>
+        <el-table-column
+                label="Cron 表达式">
+            <template slot-scope="scope">
+                <el-tag size="mini">{{scope.row.cronExpression}}</el-tag>
+            </template>
+        </el-table-column>
+        <el-table-column
+                label="作业状态">
+            <template slot-scope="scope">
+                <el-switch
+                        @change="jobStatusChange(scope.row)"
+                        style="display: block"
+                        v-model="scope.row.status"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                        active-text="开启"
+                        :active-value="1"
+                        :inactive-value="0"
+                        size="mini"
+                        inactive-text="禁用">
+                </el-switch>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="remark"
+                label="备注信息">
+        </el-table-column>
+        <el-table-column
+                prop="createTime"
+                label="创建时间">
+        </el-table-column>
+        <el-table-column
+                prop="updateTime"
+                label="更新时间">
+        </el-table-column>
+        <el-table-column
+                width="220"
+                label="操作">
+            <template>
+                <el-button type="primary" size="mini">编辑作业</el-button>
+                <el-button type="danger" size="mini">删除作业</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            jobs: [],
+            job: {
+                beanName: '',
+                methodName: '',
+                methodParams: '',
+                cronExpression: '',
+                status: 1,
+                remark: ''
+            }
+        },
+        mounted() {
+            this.initJobs();
+        },
+        methods: {
+            jobStatusChange(data) {
+                Object.assign(this.job, data);
+                this.updateJob();
+            },
+            updateJob() {
+                axios.put('/jobs/',this.job).then(resp=>{
+                    if (resp.status == 200) {
+                        //更新成功
+                        this.$notify({
+                            title: resp.data.status == 200 ? '成功' : '失败',
+                            message:resp.data.msg,
+                            type: resp.data.status == 200 ? 'success' : 'error'
+                        })
+                        //刷新表格
+                        this.initJobs();
+                    }
+                })
+            },
+            initJobs() {
+                axios.get('/jobs/').then(resp => {
+                    if (resp.status == 200) {
+                        this.jobs = resp.data;
+                    }
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
