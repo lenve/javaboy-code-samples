@@ -58,7 +58,7 @@ class BatchInsertApplicationTests {
             users.add(u);
         }
         long startTime = System.currentTimeMillis();
-        userService.saveBatch(users);
+        userService.saveBatch(users,50000);
         long endTime = System.currentTimeMillis();
         logger.info("MyBatis Plus 批量插入耗时 {}", (endTime - startTime));
     }

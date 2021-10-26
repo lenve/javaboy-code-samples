@@ -45,7 +45,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
         for (User user : users) {
             um.addUserOneByOne(user);
         }
-        session.commit();
+        session.flushStatements();
         long endTime = System.currentTimeMillis();
         logger.info("一条条插入 SQL 耗费时间 {}", (endTime - startTime));
     }
