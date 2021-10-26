@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <!--
+    配置一个包扫描
+    -->
+    <context:component-scan base-package="org.javaboy.demo"/>
+
+    <!--
+    1. 配置数据源
+    -->
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+        <property name="password" value="123"/>
+        <property name="username" value="root"/>
+        <property name="url" value="jdbc:mysql:///spring_tran?serverTimezone=Asia/Shanghai"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+    </bean>
+
+    <!--
+    2. 提供一个事务管理器
+    -->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--
+    3. 配置 TransactionTemplate
+    -->
+    <bean class="org.springframework.transaction.support.TransactionTemplate" id="transactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <!--
+    4. 配置 JdbcTemplate
+    -->
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--
+    XML 配置事务分为三个步骤：
+    1。 配置事务管理器
+    2。 配置事务通知
+    3。 配置 AOP
+    -->
+
+    <!--开启事务的注解支持-->
+    <tx:annotation-driven/>
+</beans>
