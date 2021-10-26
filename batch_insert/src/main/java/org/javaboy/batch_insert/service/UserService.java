@@ -39,9 +39,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
      */
     @Transactional(rollbackFor = Exception.class)
     public void addUserOneByOne(List<User> users) {
+        long startTime = System.currentTimeMillis();
         SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH);
         UserMapper um = session.getMapper(UserMapper.class);
-        long startTime = System.currentTimeMillis();
         for (User user : users) {
             um.addUserOneByOne(user);
         }
