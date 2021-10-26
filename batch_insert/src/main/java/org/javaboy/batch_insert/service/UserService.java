@@ -33,6 +33,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
     @Autowired
     SqlSessionFactory sqlSessionFactory;
 
+    /**
+     * 一条一条插入
+     * @param users
+     */
     @Transactional(rollbackFor = Exception.class)
     public void addUserOneByOne(List<User> users) {
         SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH);
@@ -46,6 +50,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IUserS
         logger.info("一条条插入 SQL 耗费时间 {}", (endTime - startTime));
     }
 
+    /**
+     * 合并成一条 SQL 插入
+     * @param users
+     */
     @Transactional(rollbackFor = Exception.class)
     public void addByOneSQL(List<User> users) {
         long startTime = System.currentTimeMillis();

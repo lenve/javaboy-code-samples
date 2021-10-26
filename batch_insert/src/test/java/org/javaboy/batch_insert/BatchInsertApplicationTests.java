@@ -17,6 +17,9 @@ class BatchInsertApplicationTests {
     @Autowired
     UserService userService;
 
+    /**
+     * 一条一条插入
+     */
     @Test
     void addUserOneByOne() {
         List<User> users = new ArrayList<>();
@@ -31,6 +34,9 @@ class BatchInsertApplicationTests {
     }
 
 
+    /**
+     * mp 批量插入
+     */
     @Test
     void mpBatchInsert() {
         List<User> users = new ArrayList<>();
@@ -41,10 +47,16 @@ class BatchInsertApplicationTests {
             u.setPassword("123：" + i);
             users.add(u);
         }
+        long startTime = System.currentTimeMillis();
         userService.saveBatch(users);
+        long endTime = System.currentTimeMillis();
+        
     }
 
 
+    /**
+     * 合并成一条 SQL 插入
+     */
     @Test
     void addByOneSQL() {
         List<User> users = new ArrayList<>();
