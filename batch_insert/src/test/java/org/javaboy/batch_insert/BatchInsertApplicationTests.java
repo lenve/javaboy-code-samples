@@ -50,7 +50,7 @@ class BatchInsertApplicationTests {
         long startTime = System.currentTimeMillis();
         userService.saveBatch(users);
         long endTime = System.currentTimeMillis();
-        
+
     }
 
 
