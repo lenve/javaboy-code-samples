@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="org.javaboy.shirodemo" use-default-filters="true">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123"/>
+        <property name="url" value="jdbc:mysql:///shirodemo01?serverTimezone=Asia/Shanghai"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="org.javaboy.shirodemo.model"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:org/javaboy/shirodemo/mapper/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="mapperScannerConfigurer">
+        <property name="basePackage" value="org.javaboy.shirodemo.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+    </bean>
+
+    <bean class="org.apache.shiro.realm.jdbc.JdbcRealm" id="jdbcRealm">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="md5"/>
+                <property name="hashIterations" value="1024"/>
+            </bean>
+        </property>
+        <!--
+        COLUMN 表示自动读取数据库中的盐字段，默认的盐字段是 password_salt
+        EXTERNAL 表示默认使用 username 作为盐字段
+        -->
+        <property name="saltStyle" value="COLUMN"/>
+        <!--
+        告诉 JdbcRealm ，盐字段没有进行 base64 转码
+        -->
+<!--        <property name="saltIsBase64Encoded" value="false"/>-->
+        <!--
+        自定义用户查询 SQL
+        -->
+        <property name="authenticationQuery" value="select passwd,_salt from users where u_name=?"/>
+    </bean>
+
+<!--
+    <bean class="org.javaboy.shirodemo.realm.MyRealm01" id="myRealm01">
+        <property name="credentialsMatcher">
+&lt;!&ndash;            <bean class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"/>&ndash;&gt;
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="md5"/>
+                <property name="hashIterations" value="1024"/>
+            </bean>
+        </property>
+    </bean>
+-->
+
+
+    <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
+<!--        <property name="realm" ref="jdbcRealm"/>-->
+        <property name="authenticator">
+            <bean class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+                <property name="realms">
+                    <list>
+                        <ref bean="jdbcRealm"/>
+                        <ref bean="myRealm02"/>
+                    </list>
+                </property>
+                <property name="authenticationStrategy">
+                    <bean class="org.apache.shiro.authc.pam.FirstSuccessfulStrategy">
+                        <!--当认证成功后，就不再运行后面的 realm 了-->
+                        <property name="stopAfterFirstSuccess" value="true"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="filterChainDefinitions">
+            <!--
+            /doLogin 这个接口可以匿名访问
+            /** 剩余的其他接口，统统都要认证后才能访问
+            -->
+            <value>
+                /doLogin=anon
+                /**=authc
+            </value>
+        </property>
+    </bean>
+</beans>
