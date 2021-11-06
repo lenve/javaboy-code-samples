@@ -10,7 +10,28 @@
 
 
     <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
-
+        <property name="authenticator">
+            <bean class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+                <property name="realms">
+                    <list>
+                        <!--这里的顺序很关键，将来就按照这个顺序进行认证-->
+                        <ref bean="myRealm01"/>
+                        <ref bean="myRealm02"/>
+                    </list>
+                </property>
+                <property name="authenticationStrategy">
+                    <!--至少有一个 Realm 认证成功就算认证成功，如果有多个 Realm 认证成功，那么会返回所有认证成功的 Realm 的信息-->
+<!--                    <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>-->
+                    <!--只返回第一个认证成功的 Realm 信息，默认情况下，即使已经有 Realm 认证成功了还是会去继续调用后面剩下的 Realm 进行认证操作-->
+<!--                    <bean class="org.apache.shiro.authc.pam.FirstSuccessfulStrategy">
+                        &lt;!&ndash;当已经有 Realm 认证成功了，就不再继续调用后面的 Realm 进行认证了&ndash;&gt;
+                        <property name="stopAfterFirstSuccess" value="true"></property>
+                    </bean>-->
+                    <!--必须所有的 Realm 都要认证成功，才算认证成功-->
+                    <bean class="org.apache.shiro.authc.pam.AllSuccessfulStrategy"/>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
