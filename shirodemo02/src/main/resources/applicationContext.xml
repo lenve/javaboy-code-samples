@@ -36,13 +36,21 @@
 
     <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
         <property name="securityManager" ref="securityManager"/>
+        <!--配置登录页面-->
+        <property name="loginUrl" value="/login"/>
+        <!--登录成功后的跳转地址(前提是登录页面是用户直接访问的，而不是访问其他页面重定向到登录页面，如果是后者，则登录成功后会跳转到其他页面)-->
+        <property name="successUrl" value="/index"/>
+        <!--权限不足默认的跳转地址-->
+        <property name="unauthorizedUrl" value="/unauthorizedUrl"/>
         <property name="filterChainDefinitions">
             <!--
             /doLogin 这个接口可以匿名访问
             /** 剩余的其他接口，统统都要认证后才能访问
             -->
             <value>
+<!--                /logout=logout-->
                 /doLogin=anon
+                /hello=user
                 /**=authc
             </value>
         </property>
