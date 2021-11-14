@@ -8,17 +8,32 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <bean class="org.apache.shiro.cache.ehcache.EhCacheManager" id="ehCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+
 
     <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
+        <property name="cacheManager" ref="ehCacheManager"/>
+        <property name="rememberMeManager">
+            <bean class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+                <property name="cookie">
+                    <bean class="org.apache.shiro.web.servlet.SimpleCookie">
+                        <property name="name" value="javaboy"/>
+                        <property name="maxAge" value="604800"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
         <property name="authenticator">
             <bean class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
-                <property name="realms">
-                    <list>
+<!--                <property name="realms">-->
+<!--                    <list>-->
                         <!--这里的顺序很关键，将来就按照这个顺序进行认证-->
-                        <ref bean="myRealm01"/>
-                        <ref bean="myRealm02"/>
-                    </list>
-                </property>
+<!--                        <ref bean="myRealm01"/>-->
+<!--                        <ref bean="myRealm02"/>-->
+<!--                    </list>-->
+<!--                </property>-->
                 <property name="authenticationStrategy">
                     <!--至少有一个 Realm 认证成功就算认证成功，如果有多个 Realm 认证成功，那么会返回所有认证成功的 Realm 的信息-->
 <!--                    <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>-->
@@ -31,6 +46,11 @@
                     <bean class="org.apache.shiro.authc.pam.AllSuccessfulStrategy"/>
                 </property>
             </bean>
+        </property>
+        <property name="realms">
+            <list>
+                <ref bean="myRealm02"/>
+            </list>
         </property>
     </bean>
 
@@ -49,10 +69,23 @@
             -->
             <value>
 <!--                /logout=logout-->
+                /index=anon
                 /doLogin=anon
                 /hello=user
+<!--                /admin=roles[admin]-->
                 /**=authc
             </value>
         </property>
     </bean>
+
+    <!--添加三个 Bean 来支持基于注解的权限配置-->
+
+    <bean class="org.apache.shiro.spring.LifecycleBeanPostProcessor" id="beanPostProcessor"/>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
 </beans>

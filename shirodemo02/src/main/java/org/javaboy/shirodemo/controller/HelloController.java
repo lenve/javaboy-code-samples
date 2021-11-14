@@ -1,5 +1,7 @@
 package org.javaboy.shirodemo.controller;
 
+import org.javaboy.shirodemo.service.HelloService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,8 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class HelloController {
+    @Autowired
+    HelloService helloService;
     @GetMapping("/hello")
     public String hello() {
-        return "hello shiro";
+        return helloService.hello();
+    }
+    @GetMapping("/admin")
+    public String admin() {
+        return helloService.admin();
+    }
+    @GetMapping("/unauthorizedUrl")
+    public String unauthorizedUrl() {
+        return "unauthorized";
     }
 }

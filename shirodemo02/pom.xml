@@ -70,6 +70,11 @@
             <version>2.13.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.8.0</version>
+        </dependency>
 
     </dependencies>
 
