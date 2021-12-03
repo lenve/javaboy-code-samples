@@ -25,7 +25,7 @@ public class RpcServerController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @RabbitListener(queues = RabbitConfig.RPC_QUEUE1)
+    @RabbitListener(queues = RabbitConfig.RPC_QUEUE1,concurrency = "10")
     public void process(Message msg) {
         logger.info("server receive : {}",msg.toString());
         Message response = MessageBuilder.withBody(("i'm receive:"+new String(msg.getBody())).getBytes()).build();
