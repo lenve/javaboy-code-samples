@@ -14,7 +14,7 @@ class JpaOneToManyApplicationTests {
 
     @Test
     void test01() {
-        List<School> list = schoolRepository.findSchoolByAddressProvince("黑龙江");
+        List<School> list = schoolRepository.findSchoolByAddress_Province("黑龙江");
         System.out.println("list = " + list);
     }
 
