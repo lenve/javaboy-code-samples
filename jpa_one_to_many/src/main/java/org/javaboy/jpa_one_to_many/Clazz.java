@@ -1,8 +1,10 @@
 package org.javaboy.jpa_one_to_many;
 
 import lombok.Data;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +24,7 @@ public class Clazz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cid;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OrderBy("sid desc")
     private List<Student> students;
 }
