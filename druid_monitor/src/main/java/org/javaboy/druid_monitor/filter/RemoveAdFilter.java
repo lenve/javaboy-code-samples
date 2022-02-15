@@ -21,11 +21,8 @@ import java.io.IOException;
 public class RemoveAdFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        filterChain.doFilter(servletRequest, servletResponse);
-        servletResponse.resetBuffer();
         String text = Utils.readFromResource("support/http/resources/js/common.js");
         text = text.replace("this.buildFooter();", "");
-        System.out.println("text = " + text);
         servletResponse.getWriter().write(text);
     }
 }
