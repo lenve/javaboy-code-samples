@@ -24,7 +24,6 @@ public class RemoveAdFilter implements Filter {
         servletResponse.resetBuffer();
         String text = Utils.readFromResource("support/http/resources/js/common.js");
         text = text.replace("this.buildFooter();", "");
-        System.out.println("text = " + text);
         servletResponse.getWriter().write(text);
     }
 }
