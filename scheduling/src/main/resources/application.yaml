@@ -2,11 +2,11 @@ spring:
   datasource:
     username: root
     password: 123
-    url: jdbc:mysql:///scheduling2?serverTimezone=Asia/Shanghai
+    url: jdbc:mysql:///scheduling?serverTimezone=Asia/Shanghai
 
   jpa:
-    database-platform: mysql
     database: mysql
+    database-platform: mysql
     hibernate:
       ddl-auto: update
     properties:
