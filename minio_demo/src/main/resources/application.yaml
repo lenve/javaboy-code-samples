@@ -1,0 +1,5 @@
+minio:
+  endpoint: http://localhost:9001
+  accessKey: javaboy
+  secretKey: 123@45678
+  nginxHost: http://local.javaboy.org:8888
