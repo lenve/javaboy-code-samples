@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    password: 123
+    username: root
+    url: jdbc:mysql:///vhr
