@@ -12,6 +12,12 @@ import java.util.Collections;
 class DataScopeApplicationTests {
 
     @Test
+    void test01() {
+        String format = String.format("aaa%sbbb%s", "1", "2");
+        System.out.println("format = " + format);
+    }
+
+    @Test
     void contextLoads() {
         FastAutoGenerator.create("jdbc:mysql:///test06?serverTimezone=Asia/Shanghai&useSSL=false", "root", "123")
                 .globalConfig(builder -> {

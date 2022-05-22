@@ -37,15 +37,15 @@ public class DataScopeAspect {
         for (Role role : roles) {
             if (role.getDataScope().equals("1")) {
             } else if (role.getDataScope().equals("2")) {
-                sql.append(" and "+dataScope.deptAlias()+".dept_id in(select dept_id from sys_role_dept srd where srd.role_id="+role.getRoleId()+")");
+                sql.append(String.format(" and %s.dept_id in(select dept_id from sys_role_dept srd where srd.role_id=%d)", dataScope.deptAlias(), role.getRoleId()));
             } else if (role.getDataScope().equals("3")) {
-                sql.append(" and "+dataScope.deptAlias()+".dept_id =" + user.getDeptId());
+                sql.append(String.format(" and %s.dept_id=%d", dataScope.deptAlias(), user.getDeptId()));
             } else if (role.getDataScope().equals("4")) {
-                sql.append(" and "+dataScope.deptAlias()+".dept_id in(select dept_id from sys_dept where sys_dept.dept_id=" + user.getDeptId() + " or find_in_set(" + user.getDeptId() + ",ancestors));");
+                sql.append(String.format(" and %s.dept_id in(select dept_id from sys_dept where sys_dept.dept_id=%d or find_in_set(%d,ancestors))", dataScope.deptAlias(), user.getDeptId(), user.getDeptId()));
             } else if (role.getDataScope().equals("5")) {
                 if (!dataScope.userAlias().equals("")) {
-                    sql.append(" and " + dataScope.userAlias() + ".user_id=" + user.getUserId());
-                }else{
+                    sql.append(String.format(" and %s.user_id=%d", dataScope.userAlias(), user.getDeptId()));
+                } else {
                     sql.append(" and 1=0");
                 }
             }
