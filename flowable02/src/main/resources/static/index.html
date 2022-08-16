@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Import style -->
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css"/>
+    <script src="https://unpkg.com/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//unpkg.com/element-plus"></script>
+</head>
+<body>
+<div id="app">
+    <h1>开始一个请假流程</h1>
+    <table>
+        <tr>
+            <td>请输入姓名：</td>
+            <td>
+                <el-input type="text" v-model="afl.name"/>
+            </td>
+        </tr>
+        <tr>
+            <td>请输入请假天数：</td>
+            <td>
+                <el-input type="text" v-model="afl.days"/>
+            </td>
+        </tr>
+        <tr>
+            <td>请输入请假理由：</td>
+            <td>
+                <el-input type="text" v-model="afl.reason"/>
+            </td>
+        </tr>
+    </table>
+    <el-button type="primary" @click="submit">提交请假申请</el-button>
+
+    <div style="margin-top: 50px">
+        <el-input v-model="name" style="width: 300px" placeholder="请输入用户名"></el-input>
+        <el-button type="primary" @click="search">查询</el-button>
+    </div>
+
+    <div>
+        <el-table border strip :data="historyInfos">
+            <el-table-column prop="name" label="姓名"></el-table-column>
+            <el-table-column prop="startTime" label="提交时间"></el-table-column>
+            <el-table-column prop="endTime" label="审批时间"></el-table-column>
+            <el-table-column prop="reason" label="事由"></el-table-column>
+            <el-table-column prop="days" label="天数"></el-table-column>
+            <el-table-column label="状态">
+                <template #default="scope">
+                    <el-tag type="success" v-if="scope.row.status">已通过</el-tag>
+                    <el-tag type="danger" v-else>已拒绝</el-tag>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+</div>
+<script>
+    Vue.createApp(
+        {
+            data() {
+                return {
+                    historyInfos: [],
+                    afl: {
+                        name: 'javaboy',
+                        days: 3,
+                        reason: '休息一下'
+                    },
+                    name: 'zhangsan'
+                }
+            },
+            methods: {
+                search() {
+                    let _this = this;
+                    axios.get('/search?name=' + this.name)
+                        .then(function (response) {
+                            if (response.data.status == 200) {
+                                _this.historyInfos=response.data.data;
+                            } else {
+                                _this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                submit() {
+                    let _this = this;
+                    axios.post('/ask_for_leave', this.afl)
+                        .then(function (response) {
+                            if (response.data.status == 200) {
+                                //提交成功
+                                _this.$message.success(response.data.msg);
+                            } else {
+                                //提交失败
+                                _this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            }
+        }
+    ).use(ElementPlus).mount('#app')
+</script>
+</body>
+</html>
