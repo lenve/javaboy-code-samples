@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Import style -->
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css"/>
+    <script src="https://unpkg.com/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//unpkg.com/element-plus"></script>
+</head>
+<body>
+<div id="app">
+    <h1>提交请假申请</h1>
+    <table>
+        <tr>
+            <td>请输入请假天数：</td>
+            <td>
+                <el-input type="text" v-model="afl.days"/>
+            </td>
+        </tr>
+        <tr>
+            <td>请输入请假理由：</td>
+            <td>
+                <el-input type="text" v-model="afl.reason"/>
+            </td>
+        </tr>
+        <tr>
+            <td>审批人：</td>
+            <td>
+                <div style="margin-bottom: 8px">
+                    <el-radio-group v-model="afl.approveType">
+                        <el-radio border label="by_user">审批人</el-radio>
+                        <el-radio border label="by_role">审批角色</el-radio>
+                    </el-radio-group>
+                </div>
+                <div v-if="afl.approveType=='by_user'">
+                    <el-select v-model="afl.approveUser" style="width: 226px" placeholder="请选择审批人">
+                        <el-option
+                                v-for="item in users"
+                                :key="item.id"
+                                :label="item.username"
+                                :value="item.username"/>
+                    </el-select>
+                </div>
+                <div v-if="afl.approveType=='by_role'">
+                    <el-select v-model="afl.approveRole" style="width: 226px" placeholder="请选择审批角色">
+                        <el-option
+                                v-for="item in roles"
+                                :key="item.id"
+                                :label="item.nameZh"
+                                :value="item.name"/>
+                    </el-select>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <el-button type="primary" @click="submit">提交请假申请</el-button>
+    <hr>
+
+    <div>
+        <el-tag>历史请假列表</el-tag>
+        <el-table border strip :data="historyInfos">
+            <el-table-column prop="name" label="姓名"></el-table-column>
+            <el-table-column prop="startTime" label="提交时间"></el-table-column>
+            <el-table-column prop="endTime" label="审批时间"></el-table-column>
+            <el-table-column prop="reason" label="事由"></el-table-column>
+            <el-table-column prop="days" label="天数"></el-table-column>
+            <el-table-column prop="approveUser" label="审批人"></el-table-column>
+            <el-table-column label="状态">
+                <template #default="scope">
+                    <el-tag type="success" v-if="scope.row.status==1">已通过</el-tag>
+                    <el-tag type="danger" v-else-if="scope.row.status==2">已拒绝</el-tag>
+                    <el-tag type="info" v-else>待审批</el-tag>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+    <hr>
+    <div style="margin-top: 20px">
+        <el-tag type="success">待审批列表</el-tag>
+        <el-table border strip :data="tasks">
+            <el-table-column prop="name" label="姓名"></el-table-column>
+            <el-table-column prop="days" label="请假天数"></el-table-column>
+            <el-table-column prop="reason" label="请假原因"></el-table-column>
+            <el-table-column lable="操作">
+                <template #default="scope">
+                    <el-button type="primary" @click="approveOrReject(scope.row.id,true,scope.row.name)">批准</el-button>
+                    <el-button type="danger" @click="approveOrReject(scope.row.id,false,scope.row.name)">拒绝</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+</div>
+<script>
+    Vue.createApp(
+        {
+            data() {
+                return {
+                    tasks: [],
+                    users: [],
+                    roles: [],
+                    historyInfos: [],
+                    afl: {
+                        days: 3,
+                        reason: '休息一下',
+                        approveType: 'by_user',
+                        approveUser: '',
+                        approveRole: '',
+                    },
+                    name: 'zhangsan'
+                };
+            },
+            mounted() {
+                this.search();
+                this.initTasks();
+                this.initUserAndRole();
+            },
+            methods: {
+                initUserAndRole() {
+                    let _this = this;
+                    axios.get('/users')
+                        .then(function (response) {
+                            if (response.data.status == 200) {
+                                _this.users = response.data.data;
+                            } else {
+                                _this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    axios.get('/roles')
+                        .then(function (response) {
+                            if (response.data.status == 200) {
+                                _this.roles = response.data.data;
+                            } else {
+                                _this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                search() {
+                    let _this = this;
+                    axios.get('/search')
+                        .then(function (response) {
+                            if (response.data.status == 200) {
+                                _this.historyInfos = response.data.data;
+                            } else {
+                                _this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                submit() {
+                    let _this = this;
+                    axios.post('/ask_for_leave', this.afl)
+                        .then(function (response) {
+                            if (response.data.status == 200) {
+                                //提交成功
+                                _this.$message.success(response.data.msg);
+                                _this.search();
+                            } else {
+                                //提交失败
+                                _this.$message.error(response.data.msg);
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                approveOrReject(taskId, approve, name) {
+                    let _this = this;
+                    axios.post('/handler', {taskId: taskId, approve: approve, name: name})
+                        .then(function (response) {
+                            _this.initTasks();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                initTasks() {
+                    let _this = this;
+                    axios.get('/list')
+                        .then(function (response) {
+                            _this.tasks = response.data.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            }
+        }
+    ).use(ElementPlus).mount('#app')
+</script>
+</body>
+</html>

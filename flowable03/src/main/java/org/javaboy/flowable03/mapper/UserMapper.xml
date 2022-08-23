@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.javaboy.flowable03.mapper.UserMapper">
+
+    <select id="loadUserByUsername" resultType="org.javaboy.flowable03.model.User">
+        select * from user where username=#{username};
+    </select>
+    <select id="getUserRolesByUserId" resultType="org.javaboy.flowable03.model.Role">
+        select r.* from role r,user_role ur where r.id=ur.rid and ur.uid=#{uid}
+    </select>
+    <select id="getAllUsers" resultType="org.javaboy.flowable03.model.User">
+        select * from user ;
+    </select>
+</mapper>
