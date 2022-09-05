@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="holidayRequestDemo" name="holidayRequestDemo" isExecutable="true">
+    <startEvent id="startEvent" name="开始一个请假流程"/>
+    <userTask id="approveRequest" name="批准或者拒绝请假请求" flowable:assignee="javaboy"/>
+    <sequenceFlow id="sid-cb8f5f33-7e4e-4d87-b974-8dfe252d47b9" sourceRef="startEvent" targetRef="approveRequest"/>
+    <exclusiveGateway id="approveOrRejectGateway" name="同意或者拒绝网关"/>
+    <sequenceFlow id="sid-969fceaf-4186-4860-8440-451711b8ebf2" sourceRef="approveRequest" targetRef="approveOrRejectGateway"/>
+    <serviceTask id="sendApproveEmail" flowable:exclusive="true" name="发送请假审批通过的邮件" flowable:class="org.javaboy.flowable03.flowable.Approve"/>
+    <sequenceFlow id="gateway_to_approve" sourceRef="approveOrRejectGateway" targetRef="sendApproveEmail" name="从网关到请假通过">
+      <conditionExpression xsi:type="tFormalExpression">${approve}</conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endEvent" name="请假流程结束"/>
+    <sequenceFlow id="approve_to_endEvent" sourceRef="sendApproveEmail" targetRef="endEvent"/>
+    <serviceTask id="sendRejectEmail" flowable:exclusive="true" name="发送请假被拒绝的邮件" flowable:class="org.javaboy.flowable03.flowable.Reject"/>
+    <sequenceFlow id="gateway_to_reject" sourceRef="approveOrRejectGateway" targetRef="sendRejectEmail" name="从网关到请求被拒绝">
+      <conditionExpression xsi:type="tFormalExpression">${!approve}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="reject_to_endEvent" sourceRef="sendRejectEmail" targetRef="endEvent"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_holidayRequestDemo">
+    <bpmndi:BPMNPlane bpmnElement="holidayRequestDemo" id="BPMNPlane_holidayRequestDemo">
+      <bpmndi:BPMNShape id="shape-21bb0739-7ee8-4d64-bae2-63d017db3372" bpmnElement="startEvent">
+        <omgdc:Bounds x="-135.0" y="-35.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="shape-00939312-4182-495b-9df5-91943b99ac67" bpmnElement="approveRequest">
+        <omgdc:Bounds x="-45.0" y="-42.5" width="80.0" height="45.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-a2da3de2-7a4e-4df7-b9c2-8bdce7c49d97" bpmnElement="sid-cb8f5f33-7e4e-4d87-b974-8dfe252d47b9">
+        <omgdi:waypoint x="-105.0" y="-20.0"/>
+        <omgdi:waypoint x="-45.0" y="-20.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-fbdd5cfa-50bb-48ba-bde2-af2f8f805084" bpmnElement="approveOrRejectGateway">
+        <omgdc:Bounds x="100.0" y="-40.0" width="40.0" height="40.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-d6adadb3-05e1-404c-9c33-a505e77b898e" bpmnElement="sid-969fceaf-4186-4860-8440-451711b8ebf2">
+        <omgdi:waypoint x="35.0" y="-20.0"/>
+        <omgdi:waypoint x="100.0" y="-20.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-015e8614-997b-4045-91c2-d051a60ea97e" bpmnElement="sendApproveEmail">
+        <omgdc:Bounds x="210.0" y="-42.5" width="80.0" height="45.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-2451ec34-c339-4309-b8f3-777930d48f02" bpmnElement="gateway_to_approve">
+        <omgdi:waypoint x="140.0" y="-20.0"/>
+        <omgdi:waypoint x="210.0" y="-20.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-5aba8435-91f2-433e-abf0-320c093a26cd" bpmnElement="endEvent">
+        <omgdc:Bounds x="345.0" y="-35.0" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-16309451-7024-4245-a0c0-b8a4cee41c0b" bpmnElement="sid-70c143b1-695e-4194-97a8-ca95042f9f35">
+        <omgdi:waypoint x="290.0" y="-20.0"/>
+        <omgdi:waypoint x="360.0" y="-20.0"/>
+        <omgdi:waypoint x="360.00003" y="37.5"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-3240aa3b-0b13-4b2e-9166-fa1ef00670f6" bpmnElement="sendRejectEmail">
+        <omgdc:Bounds x="210.0" y="30.0" width="80.0" height="45.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-9ea34a9f-8657-4b08-b05c-c71f836308c4" bpmnElement="gateway_to_reject">
+        <omgdi:waypoint x="120.0" y="0.0"/>
+        <omgdi:waypoint x="120.0" y="41.25"/>
+        <omgdi:waypoint x="210.0" y="41.25"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="shape-72da601d-c4b0-4d49-985f-967d1100bc1a" bpmnElement="endEvent">
+        <omgdc:Bounds x="345.0" y="37.5" width="30.0" height="30.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-ada42b4d-1aa8-4c88-98b8-fba9af578dcd" bpmnElement="sid-2559fc92-b9ea-4710-8c2b-203ab535f45c">
+        <omgdi:waypoint x="290.0" y="52.5"/>
+        <omgdi:waypoint x="345.0" y="52.5"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

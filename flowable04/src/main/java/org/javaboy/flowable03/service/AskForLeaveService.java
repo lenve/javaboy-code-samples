@@ -46,6 +46,7 @@ public class AskForLeaveService {
         variables.put("name", askForLeaveVO.getName());
         variables.put("days", askForLeaveVO.getDays());
         variables.put("reason", askForLeaveVO.getReason());
+        System.out.println("askForLeaveVO.getApproveUsers() = " + askForLeaveVO.getApproveUsers());
         variables.put("userTasks", askForLeaveVO.getApproveUsers());
         try {
             runtimeService.startProcessInstanceByKey("holidayRequest", askForLeaveVO.getName(), variables);
