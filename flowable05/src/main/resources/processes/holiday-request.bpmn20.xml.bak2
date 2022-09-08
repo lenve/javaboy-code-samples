@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:flowable="http://flowable.org/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.flowable.org/processdef">
+    <process id="holidayRequest" name="holidayRequest">
+        <documentation>员工请假流程图</documentation>
+        <startEvent id="startNode1" name="开始" flowable:formKey="my_request">
+            <outgoing>Flow_1vaoogb</outgoing>
+        </startEvent>
+        <sequenceFlow id="Flow_1vaoogb" sourceRef="startNode1" targetRef="Activity_05q7mld" />
+        <userTask id="Activity_05q7mld" name="同意或拒绝请假流程">
+            <documentation>approve or </documentation>
+            <extensionElements>
+                <flowable:taskListener class="org.javaboy.flowable05.listener.SettingApproveUser" event="create" />
+            </extensionElements>
+            <incoming>Flow_1vaoogb</incoming>
+            <outgoing>Flow_15w88rk</outgoing>
+        </userTask>
+        <exclusiveGateway id="Gateway_1m6bnvg">
+            <incoming>Flow_15w88rk</incoming>
+            <outgoing>Flow_0lf868q</outgoing>
+            <outgoing>Flow_1xvymbq</outgoing>
+        </exclusiveGateway>
+        <sequenceFlow id="Flow_15w88rk" sourceRef="Activity_05q7mld" targetRef="Gateway_1m6bnvg" />
+        <sequenceFlow id="Flow_0lf868q" sourceRef="Gateway_1m6bnvg" targetRef="Activity_1oamj8s">
+            <conditionExpression xsi:type="tFormalExpression">${approved}</conditionExpression>
+        </sequenceFlow>
+        <serviceTask id="Activity_1oamj8s" flowable:class="org.javaboy.flowable05.flowable.Approve">
+            <incoming>Flow_0lf868q</incoming>
+            <outgoing>Flow_0pmrrg2</outgoing>
+        </serviceTask>
+        <sequenceFlow id="Flow_0pmrrg2" sourceRef="Activity_1oamj8s" targetRef="Activity_07tmt3l" />
+        <userTask id="Activity_07tmt3l">
+            <extensionElements>
+                <flowable:taskListener expression="${approveUser}" event="assignment" />
+            </extensionElements>
+            <incoming>Flow_0pmrrg2</incoming>
+            <outgoing>Flow_0wajsfy</outgoing>
+        </userTask>
+        <endEvent id="Event_09v0hww">
+            <incoming>Flow_0wajsfy</incoming>
+        </endEvent>
+        <sequenceFlow id="Flow_0wajsfy" sourceRef="Activity_07tmt3l" targetRef="Event_09v0hww" />
+        <sequenceFlow id="Flow_1xvymbq" sourceRef="Gateway_1m6bnvg" targetRef="Activity_126k1uw">
+            <conditionExpression xsi:type="tFormalExpression">${!approved}</conditionExpression>
+        </sequenceFlow>
+        <serviceTask id="Activity_126k1uw" flowable:class="org.javaboy.flowable05.flowable.Reject">
+            <incoming>Flow_1xvymbq</incoming>
+            <outgoing>Flow_0fv9dmz</outgoing>
+        </serviceTask>
+        <endEvent id="Event_0c5q3sg">
+            <incoming>Flow_0fv9dmz</incoming>
+        </endEvent>
+        <sequenceFlow id="Flow_0fv9dmz" sourceRef="Activity_126k1uw" targetRef="Event_0c5q3sg" />
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_flow">
+        <bpmndi:BPMNPlane id="BPMNPlane_flow" bpmnElement="holidayRequest">
+            <bpmndi:BPMNEdge id="Flow_1vaoogb_di" bpmnElement="Flow_1vaoogb">
+                <di:waypoint x="270" y="215" />
+                <di:waypoint x="320" y="215" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_15w88rk_di" bpmnElement="Flow_15w88rk">
+                <di:waypoint x="420" y="215" />
+                <di:waypoint x="475" y="215" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0lf868q_di" bpmnElement="Flow_0lf868q">
+                <di:waypoint x="525" y="215" />
+                <di:waypoint x="580" y="215" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0pmrrg2_di" bpmnElement="Flow_0pmrrg2">
+                <di:waypoint x="680" y="215" />
+                <di:waypoint x="740" y="215" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0wajsfy_di" bpmnElement="Flow_0wajsfy">
+                <di:waypoint x="840" y="215" />
+                <di:waypoint x="902" y="215" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_1xvymbq_di" bpmnElement="Flow_1xvymbq">
+                <di:waypoint x="500" y="240" />
+                <di:waypoint x="500" y="330" />
+                <di:waypoint x="580" y="330" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0fv9dmz_di" bpmnElement="Flow_0fv9dmz">
+                <di:waypoint x="680" y="330" />
+                <di:waypoint x="742" y="330" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="BPMNShape_startNode1" bpmnElement="startNode1" bioc:stroke="">
+                <omgdc:Bounds x="240" y="200" width="30" height="30" />
+                <bpmndi:BPMNLabel>
+                    <omgdc:Bounds x="243" y="237" width="22" height="14" />
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_0qriv8q_di" bpmnElement="Activity_05q7mld">
+                <omgdc:Bounds x="320" y="175" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Gateway_1m6bnvg_di" bpmnElement="Gateway_1m6bnvg" isMarkerVisible="true">
+                <omgdc:Bounds x="475" y="190" width="50" height="50" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_0jqepvo_di" bpmnElement="Activity_1oamj8s">
+                <omgdc:Bounds x="580" y="175" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_1838o1b_di" bpmnElement="Activity_07tmt3l">
+                <omgdc:Bounds x="740" y="175" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Event_09v0hww_di" bpmnElement="Event_09v0hww">
+                <omgdc:Bounds x="902" y="197" width="36" height="36" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_0lb5rj2_di" bpmnElement="Activity_126k1uw">
+                <omgdc:Bounds x="580" y="290" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Event_0c5q3sg_di" bpmnElement="Event_0c5q3sg">
+                <omgdc:Bounds x="742" y="312" width="36" height="36" />
+            </bpmndi:BPMNShape>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>

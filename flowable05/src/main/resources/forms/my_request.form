@@ -1,0 +1,49 @@
+{
+"key": "my_request",
+"name": "提交请假请求",
+"fields": [
+            {
+            "id": "name",
+            "name": "请假人",
+            "type": "text",
+            "required": true,
+            "placeholder": "empty"
+
+            },
+            {
+            "id": "days",
+            "name": "请假时间",
+            "type": "text",
+            "required": true,
+            "placeholder": "empty"
+            },
+            {
+            "id": "reason",
+            "name": "请假原因",
+            "type": "text",
+            "required": true,
+            "placeholder": "empty"
+            },
+            {
+            "id": "approveType",
+            "name": "请假类型",
+            "type": "text",
+            "required": true,
+            "placeholder": "empty"
+            },
+            {
+            "id": "approveUser",
+            "name": "审批人",
+            "type": "text",
+            "required": true,
+            "placeholder": "empty"
+            },
+            {
+            "id": "approveRole",
+            "name": "审批组",
+            "type": "text",
+            "required": true,
+            "placeholder": "empty"
+            }
+    ]
+}
