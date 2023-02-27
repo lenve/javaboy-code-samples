@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.javaboy.grpc.demo";
+option java_outer_classname = "BookServiceProto";
+import "google/protobuf/wrappers.proto";
+
+package book;
+
+service BookService {
+  rpc addBook(Book) returns (google.protobuf.StringValue);
+  rpc getBook(google.protobuf.StringValue) returns (Book);
+  rpc searchBooks(google.protobuf.StringValue) returns (stream Book);
+  rpc updateBooks(stream Book) returns (google.protobuf.StringValue);
+  rpc processBooks(stream google.protobuf.StringValue) returns (stream BookSet);
+}
+
+message Book {
+  string id = 1;
+  repeated string tags = 2;
+  string name = 3;
+  float price = 4;
+  string author = 5;
+}
+
+message BookSet {
+  string id = 1;
+  repeated Book bookList = 3;
+}

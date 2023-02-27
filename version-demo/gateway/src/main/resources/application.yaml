@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        password: nacos
+        username: nacos
+        server-addr: 110.41.0.197:8848
+        namespace: public
+    gateway:
+      discovery:
+        locator:
+#          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: v1_provider
+          uri: lb://provider
+          predicates:
+            - Path=/p/**
+            - Header=Accept,.*;?version=1\.0(|;.*)
+          filters:
+            - StripPrefix=1
+server:
+  port: 8082

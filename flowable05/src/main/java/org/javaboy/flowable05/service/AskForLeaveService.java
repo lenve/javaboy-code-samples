@@ -1,22 +1,23 @@
 package org.javaboy.flowable05.service;
 
-import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.*;
+import org.flowable.engine.form.FormProperty;
+import org.flowable.engine.form.StartFormData;
+import org.flowable.engine.form.TaskFormData;
 import org.flowable.engine.history.HistoricProcessInstance;
-import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
-import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
-import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
-import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.engine.runtime.ProcessInstance;
-import org.flowable.form.api.FormInfo;
+import org.flowable.eventregistry.api.EventManagementService;
+import org.flowable.form.api.FormRepositoryService;
 import org.flowable.task.api.Task;
 import org.flowable.variable.api.history.HistoricVariableInstance;
-import org.javaboy.flowable05.model.*;
+import org.javaboy.flowable05.model.ApproveRejectVO;
+import org.javaboy.flowable05.model.AskForLeaveVO;
+import org.javaboy.flowable05.model.HistoryInfo;
+import org.javaboy.flowable05.model.RespBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +48,43 @@ public class AskForLeaveService {
     FormService formService;
     @Autowired
     RepositoryService repositoryService;
+    @Autowired
+    FormRepositoryService formRepositoryService;
 
+    @Transactional
+    public RespBean askForLeave(AskForLeaveVO askForLeaveVO) {
+        Map variables = new HashMap<>();
+        askForLeaveVO.setName(SecurityContextHolder.getContext().getAuthentication().getName());
+        variables.put("name", askForLeaveVO.getName());
+        variables.put("days", String.valueOf(askForLeaveVO.getDays()));
+        variables.put("reason", askForLeaveVO.getReason());
+        variables.put("approveType", askForLeaveVO.getApproveType());
+        variables.put("approveUser", askForLeaveVO.getApproveUser());
+        variables.put("approveRole", askForLeaveVO.getApproveRole());
+        try {
+            ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("holidayRequest").latestVersion().singleResult();
+            StartFormData startFormData = formService.getStartFormData(pd.getId());
+            List<FormProperty> formProperties = startFormData.getFormProperties();
+            for (FormProperty fp : formProperties) {
+                System.out.println(fp.getName() + ">>>" + fp.getType()+">>>"+fp.getValue());
+            }
+            ProcessInstance pi = runtimeService.startProcessInstanceWithForm(pd.getId(), null, variables, null);
+//            ProcessInstance pi = formService.submitStartFormData(pd.getId(), variables);
+            Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+            System.out.println("task.getName() = " + task.getName());
+            formService.saveFormData(task.getId(), variables);
+            TaskFormData taskFormData = formService.getTaskFormData(task.getId());
+            List<FormProperty> formProperties1 = taskFormData.getFormProperties();
+            for (FormProperty fp : formProperties1) {
+                System.out.println(fp.getName()+">>>"+fp.getValue());
+            }
+            return RespBean.ok("已提交请假申请");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RespBean.error("提交申请失败");
+    }
+    /*
     @Transactional
     public RespBean askForLeave(AskForLeaveVO askForLeaveVO) {
         Map<String, Object> variables = new HashMap<>();
@@ -59,29 +96,16 @@ public class AskForLeaveService {
         variables.put("approveUser", askForLeaveVO.getApproveUser());
         variables.put("approveRole", askForLeaveVO.getApproveRole());
         try {
-//            runtimeService.startProcessInstanceByKey("holidayRequest", askForLeaveVO.getName(), variables);
-//            runtimeService.startProcessInstanceWithForm("holidayRequest", "", variables, "holidayRequest");
-//            ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceName("holidayRequest").singleResult();
-//            ProcessInstance pi = runtimeService.createProcessInstanceQuery().processDefinitionId("holidayRequest").singleResult();
-//            ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionId("holidayRequest").singleResult();
-//            Deployment deployment = repositoryService.createDeploymentQuery().deploymentName("holiday-request.bpmn20.xml").singleResult();
-//            System.out.println("deployment = " + deployment);
-//            ProcessInstance pi = runtimeService.startProcessInstanceByKey("holidayRequest");
-//            formService.submitStartFormData(pi.getProcessDefinitionId(), askForLeaveVO.getName(), variables);
-//            FormInfo fi = runtimeService.getStartFormModel(pi.getProcessDefinitionId(), pi.getProcessInstanceId());
-//            System.out.println("fi = " + fi);
-            ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("holidayRequest").singleResult();
+            ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("holidayRequest").latestVersion().singleResult();
             ProcessInstance pi = runtimeService.startProcessInstanceWithForm(pd.getId(), "", variables, pd.getName());
-//            ProcessInstance pi = formService.submitStartFormData(pd.getId(), askForLeaveVO.getName(), variables);
-            ((ExecutionEntityImpl) pi).setBusinessKey(askForLeaveVO.getName());
             FormInfo fi = runtimeService.getStartFormModel(pd.getId(), pi.getProcessInstanceId());
-            System.out.println("pd = " + pd);
+            System.out.println("fi = " + fi);
             return RespBean.ok("已提交请假申请");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return RespBean.error("提交申请失败");
-    }
+    }*/
 
     /**
      * 待审批列表
@@ -131,7 +155,7 @@ public class AskForLeaveService {
     public RespBean searchResult() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         List<HistoryInfo> infos = new ArrayList<>();
-        List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery().variableValueEquals("name",name)
+        List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery().variableValueEquals("name", name)
                 .orderByProcessInstanceStartTime().desc().list();
         for (HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
             HistoryInfo historyInfo = new HistoryInfo();
@@ -141,7 +165,6 @@ public class AskForLeaveService {
             List<HistoricVariableInstance> historicVariableInstances = historyService.createHistoricVariableInstanceQuery()
                     .processInstanceId(historicProcessInstance.getId())
                     .list();
-            System.out.println("historicVariableInstances = " + historicVariableInstances);
             for (HistoricVariableInstance historicVariableInstance : historicVariableInstances) {
                 String variableName = historicVariableInstance.getVariableName();
                 Object value = historicVariableInstance.getValue();

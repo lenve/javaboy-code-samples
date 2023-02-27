@@ -5,12 +5,27 @@
              targetNamespace="http://www.flowable.org/processdef">
     <process id="holidayRequest" name="Holiday Request" isExecutable="true">
 
-        <startEvent id="startEvent" flowable:formKey="my_request"/>
+        <startEvent id="startEvent">
+            <extensionElements>
+<!--                <flowable:formProperty id="name" variable="username" name="请假人姓名" type="string" required="true" readable="true" writable="true"/>-->
+<!--                <flowable:formProperty id="days" name="请假天数" type="string" required="true" readable="true" writable="true"/>-->
+<!--                <flowable:formProperty id="reason" name="请假理由" type="string" required="true" readable="true" writable="true"/>-->
+<!--                <flowable:formProperty id="approveType" name="请假类型" type="string" required="true" readable="true" writable="true"/>-->
+<!--                <flowable:formProperty id="approveUser" name="审批人" type="string" required="true" readable="true" writable="true"/>-->
+<!--                <flowable:formProperty id="approveRole" name="审批角色" type="string" required="true" readable="true" writable="true"/>-->
+            </extensionElements>
+        </startEvent>
         <sequenceFlow sourceRef="startEvent" targetRef="approveTask"/>
 
         <userTask id="approveTask" name="Approve or reject request">
             <extensionElements>
                 <flowable:taskListener event="create" class="org.javaboy.flowable05.listener.SettingApproveUser"/>
+                <flowable:formProperty id="name" variable="username" name="请假人姓名" type="string" required="true" readable="true" writable="true"/>
+                <flowable:formProperty id="days" name="请假天数" type="string" required="true" readable="true" writable="true"/>
+                <flowable:formProperty id="reason" name="请假理由" type="string" required="true" readable="true" writable="true"/>
+                <flowable:formProperty id="approveType" name="请假类型" type="string" required="true" readable="true" writable="true"/>
+                <flowable:formProperty id="approveUser" name="审批人" type="string" required="true" readable="true" writable="true"/>
+                <flowable:formProperty id="approveRole" name="审批角色" type="string" required="true" readable="true" writable="true"/>
             </extensionElements>
         </userTask>
         <sequenceFlow sourceRef="approveTask" targetRef="decision"/>

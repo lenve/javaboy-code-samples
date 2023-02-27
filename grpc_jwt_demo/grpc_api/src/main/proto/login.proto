@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.javaboy.grpc.api";
+option java_outer_classname = "LoginProto";
+import "google/protobuf/wrappers.proto";
+
+package login;
+
+service LoginService {
+  rpc login (LoginBody) returns (LoginResponse);
+}
+
+service HelloService{
+  rpc sayHello(google.protobuf.StringValue) returns (google.protobuf.StringValue);
+}
+
+message LoginBody {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+}

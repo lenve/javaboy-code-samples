@@ -93,7 +93,6 @@ public class AskForLeaveService {
             if (approved) {
                 //如果是同意，还需要继续走一步
                 Task t = taskService.createTaskQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-                System.out.println("t = " + t);
                 taskService.complete(t.getId());
             }
             return RespBean.ok("操作成功");
