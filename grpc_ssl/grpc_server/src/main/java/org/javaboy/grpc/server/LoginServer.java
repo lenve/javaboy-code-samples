@@ -24,8 +24,8 @@ public class LoginServer {
 
     public void start() throws IOException {
         int port = 50051;
-        File certFile = Paths.get( "certs", "server.crt").toFile();
-        File keyFile = Paths.get("certs", "server.pem").toFile();
+        File certFile = Paths.get( "certs", "ca.crt").toFile();
+        File keyFile = Paths.get("certs", "ca.pem").toFile();
         server = ServerBuilder.forPort(port)
                 .addService(new LoginServiceImpl())
                 .addService(ServerInterceptors.intercept(new HelloServiceImpl(), new AuthInterceptor()))
